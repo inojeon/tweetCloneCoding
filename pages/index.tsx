@@ -1,7 +1,13 @@
 import type { NextPage } from "next";
 import { Stack, Button, Container } from "@mui/material";
 
+import { useSession } from "next-auth/react";
+
 const Home: NextPage = () => {
+  const { data: session, status } = useSession();
+
+  console.log(session, status);
+
   return (
     <Container maxWidth="md">
       ...

@@ -1,10 +1,7 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +9,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import useMutation from "../lib/clinet/useMutation";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 function Copyright(props: any) {
   return (
@@ -33,15 +33,40 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+interface SignUpForm {
+  name?: string;
+  password?: string;
+}
+
+interface MutationResult {
+  ok: boolean;
+}
+
+export default function SignUp() {
+  const [createUser, { loading, data, error }] =
+    useMutation<MutationResult>("/api/users/create");
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get("email"),
+      name: data.get("name"),
       password: data.get("password"),
     });
+    const name = data.get("name");
+    const password = data.get("password");
+    if (name && password) {
+      createUser({ name, password });
+    }
   };
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data?.ok) {
+      router?.push("/login");
+    }
+  }, [data, router]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,7 +84,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            로그인
+            회원 가입하기
           </Typography>
           <Box
             component="form"
@@ -71,10 +96,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="id"
-              label="ID"
-              name="id"
-              autoComplete="id"
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
               autoFocus
             />
             <TextField
@@ -93,13 +118,13 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              fhr
+              회원 가입
             </Button>
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Already have an account? Sign In"}
+                <Link href="/login" variant="body2">
+                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
