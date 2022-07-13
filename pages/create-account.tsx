@@ -34,7 +34,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 interface SignUpForm {
-  name?: string;
+  username?: string;
   password?: string;
 }
 
@@ -50,13 +50,13 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      name: data.get("name"),
+      username: data.get("username"),
       password: data.get("password"),
     });
-    const name = data.get("name");
+    const username = data.get("username");
     const password = data.get("password");
-    if (name && password) {
-      createUser({ name, password });
+    if (username && password) {
+      createUser({ username, password });
     }
   };
 
@@ -96,10 +96,10 @@ export default function SignUp() {
               margin="normal"
               required
               fullWidth
-              id="name"
+              id="username"
               label="Name"
-              name="name"
-              autoComplete="name"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField

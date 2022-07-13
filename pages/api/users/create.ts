@@ -11,10 +11,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { name, password } = req.body;
+  const { username, password } = req.body;
 
   const alreadyUser = await clinet.user.findUnique({
-    where: { name },
+    where: { username },
   });
 
   console.log(alreadyUser);
@@ -22,7 +22,7 @@ export default async function handler(
   if (!alreadyUser && client) {
     await client.user.create({
       data: {
-        name,
+        username,
         password,
       },
     });
