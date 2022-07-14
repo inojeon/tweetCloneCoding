@@ -22,8 +22,10 @@ model User {
 }
 
 model Twitter {
-  id      Int    @id @default(autoincrement())
-  message String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  Int
+  id        Int      @id @default(autoincrement())
+  message   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }

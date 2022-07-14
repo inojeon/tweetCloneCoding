@@ -45,8 +45,6 @@ export default function SignIn() {
     }
   }, [status, router]);
 
-  console.log(session, status);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -54,7 +52,7 @@ export default function SignIn() {
       username: data.get("username"),
       password: data.get("password"),
     });
-    const response = await signIn("email", {
+    const response = await signIn("username", {
       username: data.get("username"),
       password: data.get("password"),
       redirect: false,
@@ -121,7 +119,7 @@ export default function SignIn() {
                 <Grid container>
                   <Grid item xs></Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/create-account" variant="body2">
                       {"Already have an account? Sign In"}
                     </Link>
                   </Grid>
